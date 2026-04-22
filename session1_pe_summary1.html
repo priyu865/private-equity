@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PE Session 1 — Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e2f;
+    --text: #e8e4dc;
+    --text-dim: #7a7570;
+    --text-mid: #b0aa9f;
+    --green: #4caf82;
+    --red: #c94c4c;
+    --blue: #4c8fc9;
+    --note-bg: #111108;
+    --note-border: #3a3520;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── THREE-COLUMN LAYOUT ── */
+  .page {
+    display: grid;
+    grid-template-columns: 210px 1fr 210px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SIDE COLUMNS ── */
+  .side {
+    padding: 0;
+    position: relative;
+  }
+
+  .side-left  { border-right: 1px solid var(--border); }
+  .side-right { border-left:  1px solid var(--border); }
+
+  /* Sticky header inside side columns */
+  .side-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 24px 14px 12px;
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+
+  .side-header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  /* Individual note block */
+  .note-block {
+    padding: 14px 14px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .note-topic-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .note-topic-label span {
+    flex: 1;
+    height: 1px;
+    background: var(--note-border);
+    display: block;
+  }
+
+  textarea.note-input {
+    width: 100%;
+    background: var(--note-bg);
+    border: 1px solid var(--note-border);
+    border-radius: 2px;
+    color: var(--text-mid);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    padding: 9px 10px;
+    resize: vertical;
+    min-height: 72px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  textarea.note-input::placeholder {
+    color: #3a3530;
+    font-style: italic;
+  }
+
+  textarea.note-input:focus {
+    border-color: var(--gold-dim);
+    background: rgba(201,168,76,0.04);
+  }
+
+  .note-saved-flash {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--green);
+    margin-top: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: right;
+  }
+
+  .note-saved-flash.show { opacity: 1; }
+
+  /* ── MAIN COLUMN ── */
+  .main {
+    padding: 60px 44px;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
+    margin-bottom: 56px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .header h1 em { color: var(--gold); font-style: italic; }
+
+  .header-sub {
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 52px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.08s; }
+  .section:nth-child(3) { animation-delay: 0.16s; }
+  .section:nth-child(4) { animation-delay: 0.24s; }
+  .section:nth-child(5) { animation-delay: 0.32s; }
+  .section:nth-child(6) { animation-delay: 0.40s; }
+  .section:nth-child(7) { animation-delay: 0.48s; }
+  .section:nth-child(8) { animation-delay: 0.56s; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover { border-color: var(--gold-dim); transform: translateX(3px); }
+
+  .card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 7px;
+  }
+
+  .card p { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+  .card strong { color: var(--text); font-weight: 500; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Valuation grid */
+  .val-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+
+  .val-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 18px 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .val-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); }
+
+  .val-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+
+  .val-method {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .val-card p { font-size: 12px; color: var(--text-mid); line-height: 1.6; margin-bottom: 7px; }
+
+  .formula {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    background: rgba(76,175,130,0.07);
+    border: 1px solid rgba(76,175,130,0.15);
+    padding: 6px 10px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+
+  .use-when {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+    border: 1px solid rgba(201,168,76,0.22);
+    border-left: 3px solid var(--gold);
+    border-radius: 2px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .highlight-box .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .highlight-box p { font-size: 13px; color: var(--text-mid); line-height: 1.7; font-style: italic; }
+  .highlight-box strong { color: var(--text); font-style: normal; }
+
+  /* Fee rows */
+  .fee-row { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--border); }
+  .fee-row:last-child { border-bottom: none; }
+  .fee-number { font-family:'Playfair Display',serif; font-size:1.7rem; color:var(--gold); font-weight:700; min-width:60px; }
+  .fee-info .fee-name { font-size:13px; font-weight:500; color:var(--text); margin-bottom:2px; }
+  .fee-info .fee-desc { font-size:12px; color:var(--text-dim); }
+
+  /* Timeline */
+  .timeline { display:flex; gap:0; margin-top:8px; overflow-x:auto; }
+  .timeline-item { flex:1; min-width:90px; padding:12px 12px 12px 0; position:relative; }
+  .timeline-item::after { content:'→'; position:absolute; right:-5px; top:12px; color:var(--gold-dim); font-size:13px; }
+  .timeline-item:last-child::after { display:none; }
+  .t-num { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--gold-dim); margin-bottom:2px; }
+  .t-label { font-size:12px; font-weight:500; color:var(--text); margin-bottom:2px; }
+  .t-desc { font-size:11px; color:var(--text-dim); }
+
+  /* Conflict box */
+  .conflict-box {
+    background: rgba(201,76,76,0.05);
+    border: 1px solid rgba(201,76,76,0.2);
+    border-left: 3px solid var(--red);
+    padding: 16px 20px;
+    border-radius: 2px;
+    margin-top: 12px;
+  }
+  .conflict-box .label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--red); margin-bottom:6px; }
+  .conflict-box p { font-size:12px; color:var(--text-mid); line-height:1.7; }
+
+  /* Opinion box */
+  .opinion-box {
+    background: rgba(76,143,201,0.05);
+    border: 1px solid rgba(76,143,201,0.2);
+    border-left: 3px solid var(--blue);
+    padding: 16px 20px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+  .opinion-box .label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:6px; }
+  .opinion-box p { font-size:12px; color:var(--text-mid); line-height:1.7; font-style:italic; }
+
+  /* Trend items */
+  .trend-item { display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+  .trend-item:last-child { border-bottom:none; }
+  .trend-num { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--gold-dim); min-width:18px; padding-top:2px; }
+  .trend-content .trend-title { font-size:13px; font-weight:500; color:var(--text); margin-bottom:2px; }
+  .trend-content .trend-desc { font-size:12px; color:var(--text-mid); }
+
+  /* Tags */
+  .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .tag { font-family:'IBM Plex Mono',monospace; font-size:10px; padding:3px 9px; border:1px solid var(--border); border-radius:20px; color:var(--text-dim); }
+  .tag.gold { border-color:var(--gold-dim); color:var(--gold); }
+
+  /* Footer */
+  .footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  /* Save toast */
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--surface);
+    border: 1px solid rgba(76,175,130,0.35);
+    color: var(--green);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    border-radius: 2px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Animations */
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)}  to{opacity:1;transform:translateY(0)} }
+
+  @media (max-width: 960px) {
+    .page { grid-template-columns: 1fr; }
+    .side { display: none; }
+    .main { padding: 32px 20px; }
+    .val-grid { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── LEFT NOTES COLUMN ── -->
+  <div class="side side-left">
+    <div class="side-header">
+      <div class="side-header-label">← Your Notes</div>
+    </div>
+    <div id="notes-left"></div>
+  </div>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div class="main">
+
+    <div class="header">
+      <div class="header-meta">Private Equity · Master in Finance · Session 01</div>
+      <h1>The <em>Fundamentals</em><br>of Private Equity</h1>
+      <div class="header-sub">Study guide · Professor Pablo Soler Bach · IE Business School</div>
+    </div>
+
+    <!-- TOPIC 01 -->
+    <div class="section" id="topic-01">
+      <div class="section-label">Topic 01</div>
+      <div class="section-title">The GP / LP Structure</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">LP — Limited Partners</div>
+          <p>The <strong>capital providers</strong>. Typically pension funds, sovereign wealth funds, endowments, insurance companies, and HNWIs. Called "limited" because their liability is capped at their committed capital. They do not manage the fund.</p>
+          <div class="tags">
+            <span class="tag">Pension Funds</span>
+            <span class="tag">Endowments</span>
+            <span class="tag">Sovereign Wealth</span>
+            <span class="tag">Insurance Cos.</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">GP — General Partners</div>
+          <p>The <strong>fund managers</strong>. They source deals, deploy capital, manage portfolio companies, and execute exits. Typically contribute only <strong>1–2% of fund capital</strong> ("skin in the game") — enough to align incentives with LPs.</p>
+          <div class="tags">
+            <span class="tag gold">Deal Sourcing</span>
+            <span class="tag gold">Portfolio Mgmt</span>
+            <span class="tag gold">Exits</span>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:14px;">
+        <div class="label">Why the 1–2% GP contribution matters</div>
+        <p>Without personal capital at risk, GPs could take reckless bets with other people's money. The GP contribution <strong>aligns incentives</strong> — when the fund loses, the GP loses too. This is the cornerstone of the PE principal-agent relationship.</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 02 -->
+    <div class="section" id="topic-02">
+      <div class="section-label">Topic 02</div>
+      <div class="section-title">Fund Economics — "2 and 20"</div>
+      <div class="card">
+        <div class="fee-row">
+          <div class="fee-number">2%</div>
+          <div class="fee-info">
+            <div class="fee-name">Management Fee</div>
+            <div class="fee-desc">Charged annually on <strong>committed capital</strong> (not just deployed). Covers GP salaries, operations, deal sourcing. Paid regardless of performance. On a $1B fund, that's $20M/year just to keep the lights on.</div>
+          </div>
+        </div>
+        <div class="fee-row">
+          <div class="fee-number">20%</div>
+          <div class="fee-info">
+            <div class="fee-name">Carried Interest ("Carry")</div>
+            <div class="fee-desc">The GP's share of <strong>profits above the hurdle rate</strong> (typically ~8%). If LPs haven't received their 8% minimum return first, the GP earns zero carry.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="label">The Hurdle Rate — key nuance</div>
+        <p>Unlike hedge funds where carry can kick in at any gain, PE carry only activates <strong>after LPs receive a preferred return</strong> (the hurdle, typically 8%). This ensures GPs are only rewarded for genuinely strong performance.</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 03 -->
+    <div class="section" id="topic-03">
+      <div class="section-label">Topic 03</div>
+      <div class="section-title">Fund Selection — The LP Perspective</div>
+      <p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">When an LP commits capital to a PE fund, they're locking it up for ~10 years. Due diligence centres on three evaluation buckets:</p>
+      <div class="card">
+        <div class="card-title">1. Track Record</div>
+        <p>Historical returns (IRR, MOIC), consistency across vintages, performance in downturns. <strong>Caveat:</strong> track record is backward-looking — past performance doesn't guarantee future returns.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">2. Team</div>
+        <p>Stability and depth of the investment team, prior experience, key-man risk, culture, and succession planning.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">3. Strategy</div>
+        <p>Is their focus (sector, geography, deal size) clearly defined? Is the market opportunity still valid? Does their value creation playbook hold up given current market dynamics?</p>
+      </div>
+      <div class="conflict-box">
+        <div class="label">⚠ Continuation Vehicles (CVs) — The Conflict of Interest</div>
+        <p>When a GP moves a portfolio company into a CV rather than exiting, <strong>they set the valuation themselves</strong> — without an external buyer. A high valuation benefits Fund I LPs (and the GP's carry) at the expense of new CV investors buying in at an inflated price. Regulators increasingly require independent fairness opinions on CV transactions.</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 04 -->
+    <div class="section" id="topic-04">
+      <div class="section-label">Topic 04</div>
+      <div class="section-title">PE Investment Strategies</div>
+      <div class="card">
+        <div class="card-title">Leveraged Buyout (LBO)</div>
+        <p>The most common PE strategy. Acquire a mature, cash-generative business using significant <strong>debt financing</strong>. Value is created through operational improvements, debt paydown, and multiple expansion at exit.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Growth Equity</div>
+        <p>Investment in <strong>established, profitable businesses</strong> seeking capital to accelerate growth. Less leverage than LBOs, more focus on revenue expansion.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Distressed / Turnaround</div>
+        <p>Investing in companies facing <strong>financial or operational distress</strong> — often buying debt or equity at a deep discount. Valuation is based on projected post-turnaround cash flows.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Take-Private</div>
+        <p>Acquiring a <strong>publicly listed company</strong> and delisting it. Thesis: public markets undervalue the business, or it needs restructuring away from quarterly earnings pressure.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Buy-and-Build (Platform + Bolt-ons)</div>
+        <p>Acquire a "platform" company then add smaller bolt-on acquisitions to create a larger, more valuable entity through <strong>synergies</strong>. Common in fragmented industries.</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 05 -->
+    <div class="section" id="topic-05">
+      <div class="section-label">Topic 05</div>
+      <div class="section-title">The Three Valuation Methods</div>
+      <p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">PE firms use all three in combination. If they converge, confidence is high. If they diverge, something needs explaining.</p>
+      <div class="val-grid">
+        <div class="val-card">
+          <div class="val-label">Method A</div>
+          <div class="val-method">DCF</div>
+          <p>Values the business based on the <strong>present value of future cash flows</strong>. The most fundamentally rigorous approach.</p>
+          <p>Project future free cash flows → choose a discount rate (WACC) → discount back → add terminal value.</p>
+          <div class="formula">Value = Σ CF_t / (1+r)^t + TV</div>
+          <div class="use-when">Best for: stable businesses with predictable CFs. Also used post-turnaround in distressed situations.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-label">Method B</div>
+          <div class="val-method">LBO</div>
+          <p>Works <strong>backwards from a target return</strong>. "Given my required IRR and expected exit, what's the maximum I can pay today?"</p>
+          <p>Target exit value in 5 years → discount back at required return → entry price ceiling.</p>
+          <div class="formula">Entry = Exit Value / (1.20)^5</div>
+          <div class="use-when">Best for: buyouts where return targets and debt capacity drive price discipline.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-label">Method C</div>
+          <div class="val-method">Multiples</div>
+          <p>Values the business based on <strong>what the market pays for comparable companies</strong>. Fast, market-anchored, widely used in negotiations.</p>
+          <p>Find comparable transactions → apply their EV/EBITDA multiple to your target.</p>
+          <div class="formula">Value = EBITDA × Multiple</div>
+          <div class="use-when">Best for: quick sanity checks, negotiation anchoring, and data-rich sectors.</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:18px;">
+        <div class="label">The Key Distinction</div>
+        <p>DCF asks <strong>"what is it worth?"</strong> — LBO asks <strong>"what can I pay?"</strong> — Multiples asks <strong>"what is the market paying for similar assets?"</strong> Three lenses, one conclusion.</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 06 -->
+    <div class="section" id="topic-06">
+      <div class="section-label">Topic 06</div>
+      <div class="section-title">The PE Fund Lifecycle</div>
+      <div class="card" style="padding:18px 22px;">
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="t-num">01</div>
+            <div class="t-label">Fundraising</div>
+            <div class="t-desc">GP pitches to LPs. Capital committed, not yet deployed.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="t-num">02</div>
+            <div class="t-label">Investment</div>
+            <div class="t-desc">Deal sourcing, due diligence, acquisitions. Years 1–5.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="t-num">03</div>
+            <div class="t-label">Value Creation</div>
+            <div class="t-desc">Operational improvements, add-ons, debt paydown.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="t-num">04</div>
+            <div class="t-label">Exit</div>
+            <div class="t-desc">IPO, M&A, secondary buyout, or CV.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="t-num">05</div>
+            <div class="t-label">Wind Down</div>
+            <div class="t-desc">Fund liquidated. Carry distributed after hurdle met.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="label">Illiquidity Premium</div>
+        <p>A typical PE fund runs for <strong>10 years</strong>. This illiquidity is why LPs demand higher returns than liquid public market alternatives — compensation for locking up capital.</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 07 -->
+    <div class="section" id="topic-07">
+      <div class="section-label">Topic 07</div>
+      <div class="section-title">Industry Context — 2022–2024</div>
+      <div class="card">
+        <div class="trend-item">
+          <div class="trend-num">01</div>
+          <div class="trend-content">
+            <div class="trend-title">Rising rates killed deal activity</div>
+            <div class="trend-desc">LBOs depend on cheap debt. When rates spiked in 2022–23, debt became expensive → fewer deals → fundraising slowed. PE is structurally rate-sensitive.</div>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-num">02</div>
+          <div class="trend-content">
+            <div class="trend-title">The exit problem</div>
+            <div class="trend-desc">Volatile public markets shut the IPO window. GPs holding companies they couldn't exit → couldn't return capital to LPs → LPs reluctant to commit to new funds.</div>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-num">03</div>
+          <div class="trend-content">
+            <div class="trend-title">The denominator effect</div>
+            <div class="trend-desc">As public assets fell in value, PE became over-weight in LP portfolios. Many LPs structurally unable to commit to new PE funds even if they wanted to.</div>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-num">04</div>
+          <div class="trend-content">
+            <div class="trend-title">CV and secondaries boom</div>
+            <div class="trend-desc">Unable to exit via traditional routes, GPs turned to CVs and secondary sales — raising the conflict-of-interest concerns covered in Topic 03.</div>
+          </div>
+        </div>
+      </div>
+      <div class="opinion-box">
+        <div class="label">💬 Class-ready opinion</div>
+        <p>"The PE industry is rate-sensitive by nature — the 2022–2023 slowdown was a structural response to monetary tightening, not a fundamental problem with the asset class. As rates normalize, deal activity, exits, and fundraising should recover — but firms that managed their portfolios well through the downturn will emerge with a significant competitive advantage."</p>
+      </div>
+    </div>
+
+    <!-- TOPIC 08 -->
+    <div class="section" id="topic-08">
+      <div class="section-label">Quick Reference</div>
+      <div class="section-title">Key Terms to Know Cold</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">IRR</div>
+          <p><strong>Internal Rate of Return.</strong> The annualised return of an investment. PE typically targets 20%+ IRR. Time-sensitive — the faster you return capital, the higher the IRR.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">MOIC</div>
+          <p><strong>Multiple on Invested Capital.</strong> How many times you got your money back. 3x MOIC = $1 invested returned $3. Complements IRR — a 3x over 10 years is far less impressive than 3x over 3 years.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Hurdle Rate</div>
+          <p>The <strong>minimum return LPs must receive</strong> before GPs earn carry. Typically 8%. Ensures GPs are rewarded only for genuine outperformance.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Vintage Year</div>
+          <p>The year a PE fund made its <strong>first investment</strong>. Used to compare fund performance against peers raised in the same market environment.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">EV / EBITDA</div>
+          <p><strong>Enterprise Value to EBITDA.</strong> The most common PE valuation multiple. Strips out capital structure and tax differences, enabling clean cross-company comparison.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Dry Powder</div>
+          <p>Capital <strong>committed by LPs but not yet deployed</strong>. High dry powder signals the industry has money to invest but is waiting for the right opportunity or pricing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Session 01 · Private Equity · IE Business School</span>
+      <span>Prof. Pablo Soler Bach</span>
+    </div>
+
+  </div><!-- end .main -->
+
+  <!-- ── RIGHT NOTES COLUMN ── -->
+  <div class="side side-right">
+    <div class="side-header">
+      <div class="side-header-label">Your Notes →</div>
+    </div>
+    <div id="notes-right"></div>
+  </div>
+
+</div><!-- end .page -->
+
+<div id="toast">✓ Saved</div>
+
+<script>
+  const TOPICS = [
+    { id: 'topic-01', short: '01 · GP/LP' },
+    { id: 'topic-02', short: '02 · 2 and 20' },
+    { id: 'topic-03', short: '03 · Fund Selection' },
+    { id: 'topic-04', short: '04 · Strategies' },
+    { id: 'topic-05', short: '05 · Valuation' },
+    { id: 'topic-06', short: '06 · Lifecycle' },
+    { id: 'topic-07', short: '07 · Industry' },
+    { id: 'topic-08', short: '08 · Key Terms' },
+  ];
+
+  const PREFIX = 'pe_s1_';
+  let toastTimer = null;
+
+  function load(key) {
+    try { return localStorage.getItem(PREFIX + key) || ''; } catch(e) { return ''; }
+  }
+
+  function save(key, val) {
+    try {
+      localStorage.setItem(PREFIX + key, val);
+      showToast();
+    } catch(e) {}
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 1600);
+  }
+
+  function makeNoteBlock(topic, side) {
+    const storageKey = `${side}_${topic.id}`;
+    const block = document.createElement('div');
+    block.className = 'note-block';
+    block.id = `note-${side}-${topic.id}`;
+
+    const lbl = document.createElement('div');
+    lbl.className = 'note-topic-label';
+    lbl.innerHTML = `${topic.short}<span></span>`;
+
+    const ta = document.createElement('textarea');
+    ta.className = 'note-input';
+    ta.placeholder = 'Type your notes here...';
+    ta.value = load(storageKey);
+    ta.rows = 4;
+
+    const flash = document.createElement('div');
+    flash.className = 'note-saved-flash';
+    flash.textContent = '✓ saved';
+
+    let debounce;
+    ta.addEventListener('input', () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        save(storageKey, ta.value);
+        flash.classList.add('show');
+        setTimeout(() => flash.classList.remove('show'), 1200);
+      }, 500);
+    });
+
+    block.appendChild(lbl);
+    block.appendChild(ta);
+    block.appendChild(flash);
+    return block;
+  }
+
+  function buildColumns() {
+    const leftCol  = document.getElementById('notes-left');
+    const rightCol = document.getElementById('notes-right');
+    TOPICS.forEach(topic => {
+      leftCol.appendChild(makeNoteBlock(topic, 'L'));
+      rightCol.appendChild(makeNoteBlock(topic, 'R'));
+    });
+  }
+
+  // Align note blocks vertically with their corresponding sections
+  function alignNotes() {
+    const mainEl = document.querySelector('.main');
+    if (!mainEl) return;
+    const mainRect = mainEl.getBoundingClientRect();
+    const scrollTop = window.scrollY;
+
+    TOPICS.forEach(topic => {
+      const section = document.getElementById(topic.id);
+      if (!section) return;
+      const sRect = section.getBoundingClientRect();
+      const topRelativeToPage = sRect.top + scrollTop;
+      const topRelativeToMain = topRelativeToPage - (mainRect.top + scrollTop);
+
+      // Find the header heights in side columns (sticky header ~52px)
+      const SIDE_HEADER_H = 52;
+      const targetTop = Math.max(0, topRelativeToMain - SIDE_HEADER_H);
+
+      ['L','R'].forEach(side => {
+        const block = document.getElementById(`note-${side}-${topic.id}`);
+        if (block) {
+          // We use padding-top on the first block to push it into position,
+          // subsequent blocks flow naturally
+          if (topic.id === 'topic-01') {
+            block.style.paddingTop = targetTop + 'px';
+          }
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    buildColumns();
+    setTimeout(alignNotes, 200);
+    window.addEventListener('resize', alignNotes);
+  });
+</script>
+
+</body>
+</html>
