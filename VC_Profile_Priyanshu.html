@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priyanshu Bhagwatkar — VC Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D1B2A;
+    --accent: #1a6b5c;
+    --accent2: #2E86AB;
+    --gold: #c8922a;
+    --muted: #556270;
+    --light: #f6f4f0;
+    --border: #e0dbd2;
+    --white: #fdfcfa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    color: #fff; font-size: 18px; letter-spacing: 0.5px;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: rgba(255,255,255,0.65); text-decoration: none;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.5px;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    padding: 80px 48px 72px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: end;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-left { }
+  .hero-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff; font-size: 11px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 2px; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 56px; line-height: 1.05;
+    color: #fff; margin-bottom: 8px;
+  }
+  .hero h1 em { font-style: italic; color: rgba(255,255,255,0.55); }
+  .hero-sub {
+    color: rgba(255,255,255,0.55); font-size: 15px;
+    margin-bottom: 32px; font-weight: 300;
+  }
+  .hero-contacts { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-contact {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.7); font-size: 13px;
+  }
+  .hero-contact svg { opacity: 0.6; }
+  .hero-contact a { color: inherit; text-decoration: none; }
+  .hero-contact a:hover { color: #fff; }
+
+  .hero-right { }
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-stat {
+    background: rgba(255,255,255,0.04);
+    padding: 24px 28px;
+  }
+  .hero-stat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: #fff; line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat .num span { font-size: 20px; color: var(--gold); }
+  .hero-stat .label {
+    font-size: 12px; color: rgba(255,255,255,0.45);
+    text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 40px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── THESIS ── */
+  .thesis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .thesis-card {
+    border: 1px solid var(--border); padding: 28px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .thesis-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .thesis-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent);
+  }
+  .thesis-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px; color: var(--border); line-height: 1;
+    margin-bottom: 12px;
+  }
+  .thesis-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+  .thesis-card p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+  /* ── EXPERIENCE ── */
+  .exp-list { display: flex; flex-direction: column; gap: 40px; }
+  .exp-item { display: grid; grid-template-columns: 220px 1fr; gap: 40px; }
+  .exp-meta { }
+  .exp-date { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+  .exp-company { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .exp-loc { font-size: 12px; color: var(--muted); }
+  .exp-role { font-size: 14px; font-weight: 500; color: var(--accent); margin-top: 6px; }
+  .exp-body { }
+  .exp-body ul { padding-left: 16px; }
+  .exp-body li {
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+    margin-bottom: 6px;
+  }
+  .exp-body li strong { color: var(--ink); font-weight: 500; }
+
+  /* ── SCOUTING PORTFOLIO ── */
+  .portfolio-intro {
+    background: var(--light); border: 1px solid var(--border);
+    padding: 28px 32px; margin-bottom: 48px;
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+  }
+  .portfolio-intro strong { color: var(--ink); }
+
+  .memo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .memo-card {
+    border: 1px solid var(--border); padding: 32px;
+    position: relative; transition: all 0.25s;
+  }
+  .memo-card:hover { border-color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+  .memo-type {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+  }
+  .memo-company { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 4px; }
+  .memo-tagline { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .memo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .memo-tag {
+    font-size: 11px; font-weight: 500;
+    border: 1px solid var(--border); padding: 3px 10px;
+    color: var(--muted);
+  }
+  .memo-body { font-size: 13.5px; line-height: 1.7; color: var(--muted); margin-bottom: 24px; }
+  .memo-verdict {
+    border-top: 1px solid var(--border); padding-top: 20px;
+  }
+  .memo-verdict-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .verdict-positive { color: var(--accent); }
+  .verdict-watch { color: var(--gold); }
+  .memo-verdict p { font-size: 13px; color: var(--muted); }
+
+  .memo-wide { grid-column: 1 / -1; }
+  .memo-wide .memo-grid-inner {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+    margin-top: 20px;
+  }
+  .memo-mini { border: 1px solid var(--border); padding: 20px; }
+  .memo-mini h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .memo-mini p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── SKILLS ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .skill-group h4 {
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+  }
+  .skill-list { display: flex; flex-direction: column; gap: 6px; }
+  .skill-item { font-size: 14px; color: var(--ink); }
+
+  /* ── EDUCATION ── */
+  .edu-list { display: flex; flex-direction: column; gap: 24px; }
+  .edu-item {
+    display: grid; grid-template-columns: 220px 1fr; gap: 40px;
+    padding-bottom: 24px; border-bottom: 1px solid var(--border);
+  }
+  .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .edu-year { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .edu-school { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .edu-degree { font-size: 14px; color: var(--muted); }
+  .edu-note { font-size: 13px; color: var(--accent); margin-top: 4px; font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.4);
+    text-align: center; padding: 32px;
+    font-size: 12px; letter-spacing: 0.5px;
+  }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; }
+    .thesis-grid { grid-template-columns: 1fr; }
+    .exp-item, .edu-item { grid-template-columns: 1fr; gap: 8px; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .memo-grid { grid-template-columns: 1fr; }
+    .memo-wide .memo-grid-inner { grid-template-columns: 1fr; }
+    nav { padding: 0 24px; }
+    .hero, .page { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PB</div>
+  <div class="nav-links">
+    <a href="#thesis">Thesis</a>
+    <a href="#scouting">Scouting</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">VC Resume &amp; Portfolio</div>
+    <h1>Priyanshu<br><em>Bhagwatkar</em></h1>
+    <p class="hero-sub">MSc Finance · IE Business School · Madrid &nbsp;|&nbsp; CFA Level I</p>
+    <div class="hero-contacts">
+      <div class="hero-contact">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:priyanshu.bhagwatkar29@gmail.com">priyanshu.bhagwatkar29@gmail.com</a>
+      </div>
+      <div class="hero-contact">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <a href="https://linkedin.com/in/priyanshu-bhagwatkar" target="_blank">linkedin.com/in/priyanshu-bhagwatkar</a>
+      </div>
+      <div class="hero-contact">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Madrid, Spain</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">2<span>+</span></div>
+        <div class="label">Investment Memos Written</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">3</div>
+        <div class="label">Sectors Covered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">40<span>+</span></div>
+        <div class="label">VC / Founder Conversations</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">CFA</div>
+        <div class="label">Level I · Jan 2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="page">
+
+  <!-- THESIS -->
+  <section id="thesis">
+    <div class="section-label">Investment Thesis</div>
+    <div class="thesis-grid">
+      <div class="thesis-card">
+        <div class="thesis-num">01</div>
+        <h3>Fintech Infrastructure</h3>
+        <p>Embedded finance middleware enabling non-financial platforms to offer lending, payments, and accounts natively. Value accrues at the infrastructure layer, not the product layer — high switching costs, recurring revenue, margin improvement at scale.</p>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-num">02</div>
+        <h3>B2B SaaS &amp; Vertical Software</h3>
+        <p>Vertical SaaS targeting fragmented, analogue industries — construction technology, professional services, SME operations. Focus on companies with defensible data moats and workflow lock-in that replaces legacy processes.</p>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-num">03</div>
+        <h3>Cleantech &amp; Energy Transition</h3>
+        <p>Digital, asset-light energy technology — grid optimisation, flexibility markets, BESS software. Structural tailwinds from European regulatory alignment, energy sovereignty concerns, and accelerating electrification demand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCOUTING PORTFOLIO -->
+  <section id="scouting">
+    <div class="section-label">Scouting Portfolio</div>
+
+    <div class="portfolio-intro">
+      Independent venture scouting activity conducted alongside MSc Finance studies at IE Business School. Strategy developed following conversations with An Nguyen (IR Analyst, Dawn Capital) and Angad Rikhy (Founding Partner, Nova Angels Club). Approach: attend founder events, conduct 1:1 founder calls, write institutional-grade investment memos, and share with relevant VCs for feedback. Sectors: fintech, B2B SaaS, construction technology, cleantech. Geographies: Spain, Europe, MENA.
+    </div>
+
+    <div class="memo-grid">
+
+      <!-- MEMO 1: ConTech -->
+      <div class="memo-card">
+        <div class="memo-type">Sector Thesis · Construction Technology</div>
+        <div class="memo-company">ConTech Investment Thesis</div>
+        <div class="memo-tagline">Where forced capitalisation meets venture capital opportunity</div>
+        <div class="memo-tags">
+          <span class="memo-tag">Construction Technology</span>
+          <span class="memo-tag">B2B SaaS</span>
+          <span class="memo-tag">13 Pages</span>
+          <span class="memo-tag">Shared with Fund Managers</span>
+        </div>
+        <div class="memo-body">
+          Unsolicited 13-page investment thesis analysing where three structural forces — labour pipeline collapse, tariff-driven cost floors, and data centre supercycle — were converging to make construction technology adoption involuntary for the first time. Mapped where value accrues across the value chain and identified five specific investment bets with highest conviction. Submitted to Zacua Ventures (Madrid-based seed-stage ConTech fund) and engaged with directly by fund managers. Led to an initial meeting with Caecilia Kemper, Investment Analyst at Zacua.
+        </div>
+        <div class="memo-verdict">
+          <div class="memo-verdict-label verdict-positive">Outcome</div>
+          <p>Reviewed by active fund managers. Initiated relationship with Zacua Ventures. Portfolio companies assessed across Treat / Distribute / Monitor / Decarbonise layers.</p>
+        </div>
+      </div>
+
+      <!-- MEMO 2: Nerva Antonina -->
+      <div class="memo-card">
+        <div class="memo-type">Company Memo · AI Fintech · Pre-Seed</div>
+        <div class="memo-company">Nerva Antonina</div>
+        <div class="memo-tagline">AI-native merchant bank for SME M&amp;A advisory</div>
+        <div class="memo-tags">
+          <span class="memo-tag">AI</span>
+          <span class="memo-tag">M&amp;A Advisory</span>
+          <span class="memo-tag">SME</span>
+          <span class="memo-tag">Pre-Seed</span>
+          <span class="memo-tag">MENA / Europe</span>
+        </div>
+        <div class="memo-body">
+          Full investment memo produced after conducting a structured 1:1 founder call with Niccolò Giordano, Senior M&amp;A Associate at Duni Group (Dubai), who is building Nerva Antonina as a side venture. Memo covers opportunity, market sizing (SME M&amp;A advisory is a $22B+ global market dominated by manual, relationship-driven boutiques), product and traction, team, moat analysis, projected financial structure (~65% EBITDA margin at scale), and risks. Sourced through Nova platform founder outreach following independent scouting strategy.
+        </div>
+        <div class="memo-verdict">
+          <div class="memo-verdict-label verdict-watch">Verdict</div>
+          <p>Too early for institutional VC recommendation. Revisit when network reaches 10+ active users and first deal closes. Strong founder with relevant domain expertise.</p>
+        </div>
+      </div>
+
+      <!-- MEMO 3: Nova -->
+      <div class="memo-card">
+        <div class="memo-type">Company Memo · HRTech · Seed</div>
+        <div class="memo-company">Nova Talent</div>
+        <div class="memo-tagline">AI-powered career networking platform with LP-quality data moat</div>
+        <div class="memo-tags">
+          <span class="memo-tag">HRTech</span>
+          <span class="memo-tag">B2B SaaS</span>
+          <span class="memo-tag">Seed</span>
+          <span class="memo-tag">Spain</span>
+          <span class="memo-tag">Attended Investor Q&amp;A</span>
+        </div>
+        <div class="memo-body">
+          Full investment memo written after attending Nova's live investor Q&amp;A session as a community member (alongside a €1.5M crowdfunding raise managed by Sego Venture). Memo assessed the investment opportunity for the €300K Nova-member reserved tranche. Analysed Nova Recruiter's €182K ARR in 2 months as a key signal, data moat from 6 years of behavioural career data, dual revenue model (B2C subscriptions + B2B SaaS), and financial projections against €4M ARR target by end of 2026.
+        </div>
+        <div class="memo-verdict">
+          <div class="memo-verdict-label verdict-watch">Verdict</div>
+          <p>Genuine data moat and product-market fit signal. 2026 financial projections aggressive. Series A thesis defensible if B2B ARR reaches €1M by Q3 2026. Monitoring.</p>
+        </div>
+      </div>
+
+      <!-- MEMO 4: Conektia -->
+      <div class="memo-card">
+        <div class="memo-type">Company Memo · Creator Economy · Pre-Launch</div>
+        <div class="memo-company">Conektia</div>
+        <div class="memo-tagline">AI-powered influencer marketing marketplace connecting brands with creators</div>
+        <div class="memo-tags">
+          <span class="memo-tag">Creator Economy</span>
+          <span class="memo-tag">AI Marketplace</span>
+          <span class="memo-tag">Pre-Launch</span>
+          <span class="memo-tag">Spain / Argentina</span>
+          <span class="memo-tag">Nova Sourced</span>
+        </div>
+        <div class="memo-body">
+          Sourced through independent Nova platform founder outreach. Founder Nazarena is Spain and Argentina-based, building an AI-powered marketplace that matches brands with influencers and automates the end-to-end campaign workflow. Pre-launch at time of sourcing. Pre-call clarification questions drafted and founder call scheduled as part of active scouting pipeline. Sector interest driven by structural shift in advertising spend toward creator-led channels and the fragmentation of the influencer discovery and management market.
+        </div>
+        <div class="memo-verdict">
+          <div class="memo-verdict-label verdict-watch">Status</div>
+          <p>Active pipeline. Pre-call due diligence underway. Memo in progress pending founder conversation. Sector thesis: AI-native marketplace infrastructure in the $21B influencer marketing space.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Experience</div>
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Aug 2025</div>
+          <div class="exp-company">AmplifyME</div>
+          <div class="exp-loc">Madrid, Spain</div>
+          <div class="exp-role">Applied Finance Analyst</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Completed <strong>Level 4 Diploma in Applied Finance</strong> (London Institute of Banking &amp; Finance); simulated front-office roles across sell-side and buy-side under live market conditions</li>
+            <li>Built M&amp;A valuation models (DCF, comps) and delivered <strong>investment recommendations</strong> in team-based scenarios reflecting real bank and hedge fund workflows</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Jul 2022 – Dec 2023</div>
+          <div class="exp-company">Super Creations</div>
+          <div class="exp-loc">Hyderabad, India</div>
+          <div class="exp-role">Finance &amp; Operations Associate</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Developed monthly revenue and profitability reports across <strong>15+ SKUs</strong>, enabling repricing decisions; improved gross margin by <strong>~8%</strong></li>
+            <li>Spearheaded business plan and financial model for CUBICLEXPRESS.com, projecting sales, COGS, and funding needs; exceeded revenue targets by <strong>20% within 3 months</strong></li>
+            <li>Facilitated management to reallocate <strong>INR 5,000,000+ (€50,000+)</strong> in working capital; minimised overheads by ~10%</li>
+            <li>Led 5+ finance initiatives under <strong>direct MD supervision</strong>; negotiated with 10+ vendors, cutting lead times by 20%</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Sep 2025 – Present</div>
+          <div class="exp-company">IE PE &amp; VC Club</div>
+          <div class="exp-loc">Madrid, Spain</div>
+          <div class="exp-role">Active Member</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Screen early-stage startups across <strong>fintech and B2B SaaS</strong>; evaluate founding teams, TAM, business models during pitch review sessions</li>
+            <li>Contribute to investment thesis development; track European VC funding rounds and emerging trends in embedded finance and vertical SaaS</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Nov 2025 – Present</div>
+          <div class="exp-company">Nova Talent Network</div>
+          <div class="exp-loc">Europe-wide</div>
+          <div class="exp-role">Member &amp; Mentor</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Engage in Investments, PE &amp; VC communities; participate in discussions on deal flow, market trends, and portfolio construction with peers across European finance</li>
+            <li>Provide structured mentorship and resume reviews to early-career professionals targeting buy-side and venture roles</li>
+            <li>Conduct independent venture scouting via Nova founder community; sourced and evaluated 2 companies for investment memos</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section>
+    <div class="section-label">Skills &amp; Tools</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Financial</h4>
+        <div class="skill-list">
+          <span class="skill-item">DCF Valuation</span>
+          <span class="skill-item">Comparable Company Analysis</span>
+          <span class="skill-item">LBO Modelling</span>
+          <span class="skill-item">Cap Table Analysis</span>
+          <span class="skill-item">Investment Memo Writing</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>VC-Specific</h4>
+        <div class="skill-list">
+          <span class="skill-item">Deal Sourcing</span>
+          <span class="skill-item">Market Mapping</span>
+          <span class="skill-item">Founder Diligence</span>
+          <span class="skill-item">TAM / SAM / SOM Sizing</span>
+          <span class="skill-item">Competitive Landscape</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Technical</h4>
+        <div class="skill-list">
+          <span class="skill-item">Excel (Advanced)</span>
+          <span class="skill-item">Python</span>
+          <span class="skill-item">Bloomberg Terminal</span>
+          <span class="skill-item">FactSet</span>
+          <span class="skill-item">Tableau</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <div class="skill-list">
+          <span class="skill-item">English (Fluent)</span>
+          <span class="skill-item">Hindi (Native)</span>
+          <span class="skill-item">Marathi (Native)</span>
+          <span class="skill-item">Spanish (Basic)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">Education</div>
+    <div class="edu-list">
+      <div class="edu-item">
+        <div>
+          <div class="edu-year">Expected Jul 2026</div>
+        </div>
+        <div>
+          <div class="edu-school">IE Business School — Madrid, Spain</div>
+          <div class="edu-degree">Master in Finance · Major in Investment Banking &amp; Private Equity</div>
+          <div class="edu-note">Coursework: M&amp;A, Valuation, Venture Capital &amp; Private Equity · Active IE PE &amp; VC Club Member</div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-year">Jan 2025</div>
+        </div>
+        <div>
+          <div class="edu-school">CFA Institute</div>
+          <div class="edu-degree">CFA Level I — Passed on First Attempt</div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-year">Jun – Jul 2024</div>
+        </div>
+        <div>
+          <div class="edu-school">HEC Paris Summer School</div>
+          <div class="edu-degree">Investment Banking &amp; International Finance</div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-year">May 2023</div>
+        </div>
+        <div>
+          <div class="edu-school">ICFAI Business School — Hyderabad, India</div>
+          <div class="edu-degree">BBA Finance General · GPA 3.9/4</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Priyanshu Prasenjit Bhagwatkar &nbsp;·&nbsp; <a href="mailto:priyanshu.bhagwatkar29@gmail.com">priyanshu.bhagwatkar29@gmail.com</a> &nbsp;·&nbsp; Madrid, Spain
+</footer>
+
+</body>
+</html>
